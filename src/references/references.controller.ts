@@ -48,11 +48,13 @@ export class ReferenceController {
   @ApiPaginatedResponse(UpdateReferenceDto)
   @ApiQuery({ name: 'page', required: false, example: 1 })
   @ApiQuery({ name: 'perPage', required: false, example: 10 })
+  @ApiQuery({ name: 'disciplineId', required: true, example: 1 })
   async getReferences(
     @Query('page') page: number = 1,
     @Query('perPage') perPage: number = 10,
+    @Query('disciplineId') disciplineId: number = 0,
   ): Promise<PaginatedOutputDto<ReferenceModel>> {
-    return this.referenceService.getReferences(page, perPage);
+    return this.referenceService.getReferences(page, perPage, disciplineId);
   }
 
   @Put(':id')

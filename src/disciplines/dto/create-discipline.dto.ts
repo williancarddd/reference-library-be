@@ -1,4 +1,4 @@
-import { IsString, IsInt } from 'class-validator';
+import { IsString, IsInt, IsNumber, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateDisciplineDto {
@@ -23,4 +23,19 @@ export class CreateDisciplineDto {
   })
   @IsInt()
   courseId: number;
+
+  @ApiProperty({
+    example: 60,
+    description: 'Practical hours of the discipline',
+  })
+  @IsInt()
+  practicalHours: number;
+
+
+  @ApiProperty({
+    example: 60,
+    description: 'Theoretical hours of the discipline',
+  })
+  @IsInt()
+  theoreticalHours: number;
 }

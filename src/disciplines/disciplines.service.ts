@@ -12,7 +12,9 @@ export class DisciplineService {
 
   async createDiscipline(data: CreateDisciplineDto): Promise<Discipline> {
     return this.prisma.discipline.create({
-      data,
+      data: {
+        ...data,
+      },
     });
   }
 
@@ -25,6 +27,7 @@ export class DisciplineService {
   async getDisciplines(
     page: number,
     perPage: number,
+    courseId?: number,
   ): Promise<PaginatedOutputDto<Discipline>> {
     const paginate = createPaginator({ perPage });
 
@@ -34,7 +37,9 @@ export class DisciplineService {
     >(
       this.prisma.discipline,
       {
-        where: {},
+        where: {
+          courseId,
+        },
         orderBy: {
           id: 'desc',
         },
@@ -53,7 +58,9 @@ export class DisciplineService {
   ): Promise<Discipline> {
     return this.prisma.discipline.update({
       where: { id },
-      data,
+      data: {
+        ...data,
+      }
     });
   }
 

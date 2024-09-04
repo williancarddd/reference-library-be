@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Reference, Prisma } from '@prisma/client';
 import { CreateReferenceDto } from './dto/create-reference.dto';
 import { UpdateReferenceDto } from './dto/update-reference.dto';
@@ -25,6 +25,7 @@ export class ReferenceService {
   async getReferences(
     page: number,
     perPage: number,
+    disciplineId: number,
   ): Promise<PaginatedOutputDto<Reference>> {
     const paginate = createPaginator({ perPage });
 
@@ -34,7 +35,9 @@ export class ReferenceService {
     >(
       this.prisma.reference,
       {
-        where: {},
+        where: {
+          disciplineId,
+        },
         orderBy: {
           id: 'desc',
         },
@@ -58,7 +61,15 @@ export class ReferenceService {
   }
 
   async deleteReference(id: number): Promise<Reference> {
-    return this.prisma.reference.delete({
+    const reference = await this.prisma.reference.findUnique({
+      where: { id },
+    });
+
+    if (!reference) {
+      throw new NotFoundException('Referência não encontrada.');
+    }
+
+    return await this.prisma.reference.delete({
       where: { id },
     });
   }

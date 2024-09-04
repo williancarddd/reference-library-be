@@ -8,6 +8,7 @@ import {
   Param,
   Query,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { Discipline as DisciplineModel } from '@prisma/client';
 import { CreateDisciplineDto } from './dto/create-discipline.dto';
@@ -58,11 +59,13 @@ export class DisciplineController {
   @ApiPaginatedResponse(UpdateDisciplineDto)
   @ApiQuery({ name: 'page', required: false, example: 1 })
   @ApiQuery({ name: 'perPage', required: false, example: 10 })
+  @ApiQuery({ name: 'courseId', required: false, example: 1 })
   async getDisciplines(
     @Query('page') page: number = 1,
     @Query('perPage') perPage: number = 10,
+    @Query('courseId', ParseIntPipe) courseId?: number,
   ): Promise<PaginatedOutputDto<DisciplineModel>> {
-    return this.disciplineService.getDisciplines(page, perPage);
+    return this.disciplineService.getDisciplines(page, perPage, courseId);
   }
 
   @Put(':id')
