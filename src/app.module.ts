@@ -8,6 +8,7 @@ import { CoursesModule } from './courses/courses.module';
 import { DisciplinesModule } from './disciplines/disciplines.module';
 import { ReferencesModule } from './references/references.module';
 import { ReportsModule } from './reports/reports.module';
+import { ImportsModule } from './imports/imports.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { ReportsModule } from './reports/reports.module';
     CoursesModule,
     DisciplinesModule,
     ReferencesModule,
-    ReportsModule],
+    ReportsModule,
+    ImportsModule],
   controllers: [],
   providers: [JwtService],
 })

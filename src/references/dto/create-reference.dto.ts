@@ -1,6 +1,6 @@
 import { IsString, IsInt, IsOptional, IsEnum } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { ReferenceType } from '@prisma/client';
+
 
 export class CreateReferenceDto {
   @ApiProperty({
@@ -45,9 +45,9 @@ export class CreateReferenceDto {
   @IsString()
   publisher?: string;
 
-  @ApiProperty({ enum: ReferenceType, description: 'Type of the reference' })
-  @IsEnum(ReferenceType)
-  type: ReferenceType;
+  @ApiProperty({ description: 'Type of the reference' })
+  @IsString()
+  type: string;
 
   @ApiProperty({
     example: 1,

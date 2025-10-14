@@ -14,8 +14,8 @@ export class CreateDisciplineDto {
   cargaHoraria: number;
 
   @ApiProperty({ example: 1, description: 'Period of the discipline' })
-  @IsInt()
-  period: number;
+  @IsString()
+  period: string;
 
   @ApiProperty({
     example: 1,
@@ -30,7 +30,6 @@ export class CreateDisciplineDto {
   })
   @IsInt()
   practicalHours: number;
-
 
   @ApiProperty({
     example: 60,

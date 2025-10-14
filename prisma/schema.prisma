@@ -34,7 +34,7 @@ model Discipline {
   cargaHoraria     Int
   practicalHours   Int
   theoreticalHours Int
-  period           Int
+  period           String
   course           Course      @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId         Int
   references       Reference[]
@@ -49,7 +49,7 @@ model Reference {
   year         Int?
   edition      Int?
   publisher    String?
-  type         ReferenceType
+  type         String
   course       Course        @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId     Int
   discipline   Discipline    @relation(fields: [disciplineId], references: [id], onDelete: Cascade)
@@ -58,13 +58,23 @@ model Reference {
   updatedAt    DateTime      @updatedAt
 }
 
+model Book {
+  id Int @id @default(autoincrement())
+  catalogingId String  // id_titulo_catalografico
+  title String // titulo
+  author String // autor
+  year String // ano
+  edition String // edicao 
+  publisher String // editora
+  publicationPlace String // local_publicacao
+
+  @@map("book")
+}
+
 enum UserRole {
   teacher
   bibliotecary
   admin
 }
 
-enum ReferenceType {
-  mandatory
-  complementary
-}
+
