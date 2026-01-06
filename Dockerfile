@@ -1,14 +1,16 @@
-FROM node:20-alpine
+FROM node:20-slim
 
 WORKDIR /app
 
-COPY . .
+COPY package.json yarn.lock ./
 
 RUN yarn install
 
-RUN yarn prisma generate
+COPY . .
 
+RUN yarn prisma generate
 RUN yarn build
 
-ENTRYPOINT ["yarn"]
-CMD ["start:migrate:prod"]
+EXPOSE 3000
+
+CMD ["yarn", "start:prod"]

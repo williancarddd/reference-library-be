@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '${APP_PORT}:${APP_PORT}'
+      - "${APP_PORT}:3000"
     env_file:
       - .env
     depends_on:
@@ -15,9 +15,7 @@ services:
   db:
     image: postgres:13
     ports:
-      - '${DB_PORT}:${DB_PORT}'
-    expose:
-      - '${DB_PORT}'
+      - "${DB_PORT}:5432"
     environment:
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
