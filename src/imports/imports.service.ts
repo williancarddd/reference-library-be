@@ -95,9 +95,9 @@ export class ImportsService {
                   }
               }
             }
-  
-           
-            resolve({ message: 'referencias importadas com sucesso' });
+
+
+            resolve({ message: 'ppc importado com sucesso' });
 
           } catch (err) {
             reject(err);
