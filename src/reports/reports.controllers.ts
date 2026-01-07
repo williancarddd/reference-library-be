@@ -20,6 +20,13 @@ export class ReportsController {
     return this.reportsService.reportReferences(+id);
   }
 
+  @Get('course-summary/:id')
+  @ApiOperation({ summary: 'Resumo do curso' })
+  @ApiParam({ name: 'id', description: 'Course ID' })
+  async reportCourseSummary(@Param('id') id: string) {
+    return this.reportsService.reportCourseSummary(+id);
+  }
+
   @Get('copies-by-reference/:courseId')
   @ApiOperation({ 
     summary: 'Número de exemplares por referência',

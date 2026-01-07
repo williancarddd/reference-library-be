@@ -27,9 +27,6 @@ export class ReportsService {
     };
   }
 
-  /**
-   * Compara se há match por título idêntico ou apenas pela primeira palavra.
-   */
   private titlesMatch(
     ref: { noSpaces: string; firstWord: string }, 
     book: { noSpaces: string; firstWord: string }
@@ -39,9 +36,6 @@ export class ReportsService {
     return ref.firstWord === book.firstWord;
   }
 
-  /**
-   * Helper para tratar edições nulas ou vazias.
-   */
   private formatEdition(edition: string | null | undefined): string {
     return (edition && edition.trim()) ? edition.trim() : 'Não informado';
   }
@@ -61,7 +55,7 @@ export class ReportsService {
   async reportReferences(id: number) {
     const [referenceRecords, allBooks] = await Promise.all([
       this.prismaService.reference.findMany({ where: { courseId: id }, select: { title: true } }),
-      this.prismaService.book.findMany() // Busca todos os campos, incluindo edition
+      this.prismaService.book.findMany()
     ]);
 
     const preparedRefs = referenceRecords.map(ref => this.prepareTitle(ref.title));
@@ -81,6 +75,28 @@ export class ReportsService {
 
       return aggregator;
     }, {} as any);
+  }
+
+  async reportCourseSummary(courseId: number) {
+    const [copiesByRef, disciplines, course] = await Promise.all([
+      this.reportCopiesByReference(courseId),
+      this.reportCopiesByDiscipline(courseId),
+      this.prismaService.course.findUnique({
+        where: { id: courseId },
+        select: { id: true, name: true }
+      })
+    ]);
+
+    if (!course) {
+      throw new Error('Curso não encontrado');
+    }
+
+    return {
+      course,
+      totalDisciplines: disciplines.length,
+      totalReferences: copiesByRef.totalReferences,
+      referencesWithoutBooks: copiesByRef.referencesWithoutBooks
+    };
   }
 
   async reportCopiesByReference(courseId: number) {
