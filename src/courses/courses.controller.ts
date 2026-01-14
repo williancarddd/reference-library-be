@@ -49,7 +49,7 @@ export class CourseController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Obtém todos os cursos' })
+  @ApiOperation({ summary: 'Obtém todos os cursos (paginado)' })
   @ApiPaginatedResponse(UpdateCourseDto)
   @ApiQuery({ name: 'page', required: false, example: 1 })
   @ApiQuery({ name: 'perPage', required: false, example: 10 })
@@ -58,6 +58,13 @@ export class CourseController {
     @Query('perPage') perPage: number = 10,
   ): Promise<PaginatedOutputDto<CourseModel>> {
     return this.courseService.getCourses(page, perPage);
+  }
+
+  @Get('simple')
+  @UseGuards()
+  @ApiOperation({ summary: 'Lista simples de cursos (id e nome)' })
+  async getCoursesSimple() {
+    return this.courseService.getCoursesSimple();
   }
 
   @Put(':id')

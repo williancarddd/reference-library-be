@@ -21,7 +21,6 @@ export class CourseService {
       where: { id },
     });
   }
-  
 
   async getCourses(
     page: number,
@@ -43,6 +42,18 @@ export class CourseService {
     );
 
     return paginatedCourses;
+  }
+
+  async getCoursesSimple() {
+    return this.prisma.course.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+      orderBy: {
+        name: 'asc',
+      },
+    });
   }
 
   async updateCourse(id: number, data: UpdateCourseDto): Promise<Course> {
